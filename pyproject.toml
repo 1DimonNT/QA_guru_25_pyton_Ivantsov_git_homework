@@ -1,0 +1,18 @@
+[tool.black]
+line-length = 90
+target-version = ['py311']
+exclude = '''
+/^(
+    \.git
+    | \.venv
+    | \.idea
+    | __pycache__
+    | allure_results
+    | allure_report
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 90
+skip = [".venv", ".idea", "__pycache__", "allure_results", "allure_report"]
