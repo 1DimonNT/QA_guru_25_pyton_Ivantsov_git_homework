@@ -2,7 +2,6 @@
 setlocal
 
 echo [1/6] Checking for active Virtual Environment...
-:: Проверяем, активировано ли окружение (есть ли папка .venv)
 if not exist .venv\Scripts\activate.bat (
     echo ERROR: .venv not found! Create it in PyCharm first.
     pause
@@ -10,10 +9,9 @@ if not exist .venv\Scripts\activate.bat (
 )
 
 echo [2/6] Installing tools into your environment...
-:: Активируем его перед установкой
 call .venv\Scripts\activate.bat
 python -m pip install --upgrade pip
-pip install black isort flake8 autoflake pre-commit pytest allure-pytest selenium
+pip install black isort flake8 autoflake pre-commit allure-pytest pytest==9.0.2 selenium==4.40.0
 
 echo [3/6] Creating pyproject.toml...
 (
@@ -69,9 +67,10 @@ echo         args: ["--max-line-length=120", "--ignore=E203,W503", "--exclude=.v
 echo [5/6] Activating pre-commit hooks...
 call pre-commit install
 
-echo [6/6] Running final check...
+echo [6/6] Running final check and freezing requirements...
 call pre-commit run --all-files
+pip freeze > requirements.txt
 
 echo -----------------------------------------------
-echo SUCCESS: Project configured!
+echo SUCCESS: Project configured! requirements.txt updated.
 pause
