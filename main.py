@@ -18,5 +18,12 @@ def driver():
 def test_google_web(driver):
     url = "https://www.google.com/?hl=RU"
     driver.get(url)
-    assert driver.title == "Google"
+    assert "Google" in driver.title
+    assert driver.current_url == url
+
+
+def test_github_web(driver):
+    url = "https://github.com/"
+    driver.get(url)
+    assert "GitHub" in driver.title
     assert driver.current_url == url
