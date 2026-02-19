@@ -5,7 +5,7 @@ email = {
     "subject": "Quarterly Report",
     "from": "Alice.Cooper@Company.ru",
     "to": " bob_smith@Gmail.com ",
-    "body": "Hello Bob,\n\tHere is the report.\n\tPlease review it.\n\nAlice",
+    "body": "Hello Bob,\n\tHere is the report.\n\tPlease review it.\n\nAlice"
 }
 
 # 2. Добавляю дату отправки
@@ -16,17 +16,13 @@ email["from"] = email["from"].strip().lower()
 email["to"] = email["to"].strip().lower()
 
 # 4. Логин и домен
-email_parts = email["from"].split("@")
-login = email_parts[0]
-domain = email_parts[1]
+login, domain = email["from"].split("@")
 
 # 5. Сокращенный текст
 email["short_body"] = email["body"][:10] + "..."
 
 # 6. Списки доменов
-personal_domains = list(
-    set(
-        [
+personal_domains = {
             "gmail.com",
             "list.ru",
             "yahoo.com",
@@ -37,23 +33,17 @@ personal_domains = list(
             "mail.ru",
             "list.ru",
             "bk.ru",
-            "inbox.ru",
-        ]
-    )
-)
+            "inbox.ru"
+    }
 
-corporate_domains = list(
-    set(
-        [
+corporate_domains = {
             "company.ru",
             "corporation.com",
             "university.edu",
             "organization.org",
             "company.ru",
-            "business.net",
-        ]
-    )
-)
+            "business.net"
+    }
 
 # 7. Проверка пересечений (не должно быть общих элементов)
 assert set(personal_domains).isdisjoint(set(corporate_domains))
@@ -65,11 +55,10 @@ is_corporate = domain in corporate_domains
 email["clean_body"] = email["body"].replace("\t", " ").replace("\n", " ")
 
 # 10. Формируем текст письма
-email["sent_text"] = (
-    f"Кому: {email['to']}, от {email['from']} "
-    f"Тема: {email['subject'].strip()}, дата {email['date']} "
-    f"{email['clean_body']}"
-)
+email["sent_text"] = f"""Кому: {email['to']}, от {email['from']}
+Тема: {email['subject'].strip()}, дата {email['date']}
+{email['clean_body']}"""
+
 
 # 11. Количество страниц
 pages = (len(email["sent_text"]) + 499) // 500
